@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pulseboard — a calm command center for service health." />
+  <meta name="theme-color" content="#f8f8f6" />
+  <title>Pulseboard — Service health, at a glance</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span class="brand-name">pulseboard</span>
+      </div>
+
+      <div class="workspace-switcher">
+        <div class="workspace-avatar">Y</div>
+        <div class="workspace-copy">
+          <strong>Yuin's workspace</strong>
+          <span>Personal workspace</span>
+        </div>
+        <button class="icon-button subtle" aria-label="Switch workspace" title="Switch workspace">⌄</button>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span><span>Overview</span><kbd>G</kbd></button>
+        <button class="nav-item" data-view="monitors"><span class="nav-icon">⌁</span><span>Monitors</span><span class="nav-count" id="monitor-nav-count">4</span></button>
+        <button class="nav-item" data-view="incidents"><span class="nav-icon">◒</span><span>Incidents</span><span class="nav-count warning">2</span></button>
+        <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="plan-card">
+          <div class="plan-row"><span class="plan-dot"></span><span>Free plan</span><span class="plan-limit">4 / 10</span></div>
+          <div class="plan-progress"><span></span></div>
+          <p>You're using 4 of 10 monitors.</p>
+          <button class="text-button">Explore Pro <span>↗</span></button>
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar">Y</div>
+          <div><strong>Yuin</strong><span>yuin39166@gmail.com</span></div>
+          <button class="icon-button subtle" aria-label="Open account menu">•••</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong id="breadcrumb-title">Overview</strong></div>
+        <div class="topbar-actions">
+          <button class="search-trigger" id="search-trigger" aria-label="Search monitors"><span>⌕</span><span>Search</span><kbd>⌘ K</kbd></button>
+          <button class="icon-button" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☼</button>
+          <button class="icon-button" aria-label="Notifications" title="Notifications">♢<i class="notification-dot"></i></button>
+          <div class="avatar small">Y</div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <section class="view-panel active" data-panel="overview">
+          <div class="page-heading heading-row">
+            <div>
+              <p class="eyebrow" id="greeting">Good evening, Yuin</p>
+              <h1>Your services are <em>looking good.</em></h1>
+              <p class="lede">A quiet, reliable view of everything that keeps your product moving.</p>
+            </div>
+            <div class="heading-actions">
+              <button class="button secondary" id="export-button"><span>↓</span> Export report</button>
+              <button class="button primary" id="add-monitor-button"><span>＋</span> Add monitor</button>
+            </div>
+          </div>
+
+          <div class="status-banner" id="status-banner">
+            <div class="status-orbit"><span></span></div>
+            <div class="status-copy"><strong>All systems operational</strong><span id="status-updated">Last checked just now · next check in 45 seconds</span></div>
+            <div class="status-metric"><span class="metric-label">Overall uptime</span><strong id="overall-uptime">99.98%</strong></div>
+            <div class="status-metric"><span class="metric-label">Avg. response</span><strong id="avg-response">142 ms</strong></div>
+            <button class="icon-button inverse" id="check-all" aria-label="Check all monitors now" title="Check all monitors now">↻</button>
+          </div>
+
+          <div class="section-label-row"><div><span class="section-kicker">Workspace pulse</span><h2>At a glance</h2></div><span class="live-indicator"><i></i> Live updates</span></div>
+          <div class="metrics-grid">
+            <article class="metric-card"><div class="metric-card-top"><span class="card-icon blue">⌁</span><span class="trend positive">↗ 0.02%</span></div><span class="metric-value" id="metric-uptime">99.98%</span><span class="metric-name">30-day uptime</span><div class="tiny-bars uptime-bars" aria-label="30 day uptime trend"></div></article>
+            <article class="metric-card"><div class="metric-card-top"><span class="card-icon purple">ϟ</span><span class="trend positive">↘ 8 ms</span></div><span class="metric-value" id="metric-latency">142 ms</span><span class="metric-name">Avg. latency</span><div class="latency-line" aria-label="Latency trend"><svg viewBox="0 0 220 38" preserveAspectRatio="none"><path d="M0 27 C12 25 14 18 25 22 S38 30 49 20 S64 10 74 19 S89 27 102 17 S117 13 126 18 S140 24 151 15 S167 11 179 17 S195 24 205 12 S216 8 220 10" fill="none" stroke="currentColor" stroke-width="2.5" /></svg></div></article>
+            <article class="metric-card"><div class="metric-card-top"><span class="card-icon orange">◒</span><span class="trend neutral">This month</span></div><span class="metric-value" id="metric-incidents">2</span><span class="metric-name">Incidents</span><div class="incident-foot"><span class="incident-chip resolved">1 resolved</span><span class="incident-chip monitoring">1 monitoring</span></div></article>
+            <article class="metric-card"><div class="metric-card-top"><span class="card-icon green">⌂</span><span class="trend positive">All clear</span></div><span class="metric-value" id="metric-monitors">4</span><span class="metric-name">Active monitors</span><div class="monitor-avatars"><span>CA</span><span>MS</span><span>WH</span><span>DS</span></div></article>
+          </div>
+
+          <div class="content-grid">
+            <section class="surface monitors-surface">
+              <div class="surface-header"><div><span class="section-kicker">Your endpoints</span><h2>Monitors</h2></div><button class="text-button" id="view-all-monitors">View all <span>→</span></button></div>
+              <div class="monitor-list" id="monitor-list"></div>
+            </section>
+            <section class="surface incidents-surface">
+              <div class="surface-header"><div><span class="section-kicker">Keep an eye on</span><h2>Recent incidents</h2></div><button class="text-button" data-view-target="incidents">View all <span>→</span></button></div>
+              <div class="incident-list" id="incident-list"></div>
+              <div class="incident-footer"><span class="status-check"><i></i> No active incidents</span><button class="icon-button subtle" aria-label="Incident options">•••</button></div>
+            </section>
+          </div>
+          <div class="tip-strip"><span class="tip-icon">✦</span><p><strong>Make the quiet moments count.</strong> Add a public status page so your users always know what's happening.</p><button class="text-button">Create status page <span>↗</span></button><button class="icon-button subtle dismiss-tip" aria-label="Dismiss tip">×</button></div>
+        </section>
+
+        <section class="view-panel" data-panel="monitors">
+          <div class="page-heading heading-row"><div><p class="eyebrow">Workspace pulse</p><h1>All <em>monitors.</em></h1><p class="lede">Every endpoint, every check, all in one calm view.</p></div><div class="heading-actions"><button class="button secondary" id="export-button-monitors"><span>↓</span> Export report</button><button class="button primary" id="add-monitor-button-monitors"><span>＋</span> Add monitor</button></div></div>
+          <div class="filter-row"><div class="filter-tabs"><button class="filter-tab active" data-filter="all">All <span id="all-count">4</span></button><button class="filter-tab" data-filter="operational">Operational <span>3</span></button><button class="filter-tab" data-filter="degraded">Degraded <span>1</span></button></div><div class="sort-control">Sort by <strong>Recent check</strong>⌄</div></div>
+          <section class="surface full-list-surface"><div class="monitor-list full" id="full-monitor-list"></div></section>
+        </section>
+
+        <section class="view-panel" data-panel="incidents">
+          <div class="page-heading"><p class="eyebrow">Workspace pulse</p><h1>Incident <em>timeline.</em></h1><p class="lede">A complete record of service interruptions and recoveries.</p></div>
+          <div class="incident-summary-row"><div class="incident-stat"><span>Open incidents</span><strong>1</strong><small>Needs attention</small></div><div class="incident-stat"><span>Resolved this month</span><strong>1</strong><small>Avg. resolution 14 min</small></div><div class="incident-stat"><span>Mean time to detect</span><strong>46s</strong><small>↓ 12s vs. last month</small></div></div>
+          <section class="surface timeline-surface"><div class="surface-header"><div><span class="section-kicker">September 2026</span><h2>Incident history</h2></div><button class="button secondary small" id="report-incident">＋ Report incident</button></div><div class="timeline" id="timeline"></div></section>
+        </section>
+
+        <section class="view-panel" data-panel="settings">
+          <div class="page-heading"><p class="eyebrow">Workspace pulse</p><h1>Workspace <em>settings.</em></h1><p class="lede">Tune how Pulseboard keeps you in the loop.</p></div>
+          <div class="settings-grid"><section class="surface settings-card"><div class="surface-header"><div><span class="section-kicker">Notifications</span><h2>Stay in the loop</h2></div></div><label class="setting-row"><span><strong>Incident alerts</strong><small>Get notified when a monitor goes down.</small></span><input type="checkbox" checked class="toggle" /></label><label class="setting-row"><span><strong>Recovery alerts</strong><small>Know when everything is back to normal.</small></span><input type="checkbox" checked class="toggle" /></label><label class="setting-row"><span><strong>Weekly digest</strong><small>A small report, every Monday morning.</small></span><input type="checkbox" class="toggle" /></label></section><section class="surface settings-card"><div class="surface-header"><div><span class="section-kicker">Appearance</span><h2>Make it yours</h2></div></div><button class="setting-action" id="settings-theme"><span><strong>Theme</strong><small>Use light or dark mode</small></span><span class="setting-value">System · <span>Change</span></span></button><button class="setting-action"><span><strong>Timezone</strong><small>Used for incident timestamps</small></span><span class="setting-value">Asia/Calcutta · <span>Change</span></span></button></section></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="modal" id="monitor-modal">
+    <form method="dialog" id="monitor-form" class="modal-card">
+      <button class="modal-close" value="cancel" aria-label="Close dialog">×</button>
+      <span class="section-kicker">New endpoint</span><h2>Add a monitor</h2><p class="modal-lede">Keep an eye on a URL, API, or any service with a heartbeat.</p>
+      <label>Monitor name<input name="name" type="text" placeholder="e.g. Billing API" required /></label>
+      <label>Endpoint URL<input name="url" type="url" placeholder="https://yourservice.com/health" required /></label>
+      <div class="form-split"><label>Check every<select name="cadence"><option>1 minute</option><option>5 minutes</option><option>15 minutes</option><option>30 minutes</option></select></label><label>Monitor type<select name="type"><option>HTTP / HTTPS</option><option>TCP</option><option>Keyword match</option></select></label></div>
+      <div class="modal-note"><span>✦</span><span>Demo mode is on. Checks are simulated locally so you can explore the product without connecting a real service.</span></div>
+      <div class="modal-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" value="default">Create monitor <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span id="toast-message">All monitors checked.</span></div>
+  <div class="command-palette" id="command-palette" aria-hidden="true"><div class="palette-card"><div class="palette-search"><span>⌕</span><input id="palette-input" placeholder="Search monitors or jump to a view..." /></div><div class="palette-results" id="palette-results"></div><div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> select</span><span><kbd>esc</kbd> close</span></div></div></div>
+</body>
+</html>
