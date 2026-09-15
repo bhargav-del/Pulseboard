@@ -63,3 +63,7 @@ The current experience deliberately uses local simulated checks so it can be hos
 ## License
 
 MIT © 2026 Yuin
+
+## Desktop release
+
+The repository includes a portable Windows desktop build. Every push to `main` runs the Windows packaging workflow and publishes a `.exe` to the repository's **Releases** section. The desktop shell loads the same app locally, so it works without an API key or server.
