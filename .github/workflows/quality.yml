@@ -1,0 +1,26 @@
+name: Quality checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate JavaScript syntax
+        run: node --check app.js
+      - name: Validate package metadata
+        run: node -e "const p=require('./package.json'); if(!p.name || !p.version) process.exit(1); console.log(p.name+' '+p.version)"
+      - name: Check required product files
+        run: test -f index.html && test -f styles.css && test -f app.js && test -f README.md

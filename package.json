@@ -5,7 +5,8 @@
   "private": true,
   "main": "desktop/main.cjs",
   "scripts": {
-    "dist": "electron-builder --win portable"
+    "dist": "electron-builder --win portable",
+    "check": "node --check app.js"
   },
   "devDependencies": {
     "electron": "^36.3.2",
