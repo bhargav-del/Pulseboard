@@ -1,7 +1,7 @@
 {
   "name": "pulseboard",
   "version": "1.0.0",
-  "description": "A calm command center for service health.",
+  "description": "Uptime monitoring dashboard for service health, incidents, and response times.",
   "private": true,
   "main": "desktop/main.cjs",
   "scripts": {
