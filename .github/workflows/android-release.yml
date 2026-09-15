@@ -1,0 +1,75 @@
+name: Build and schedule Android release
+
+on:
+  schedule:
+    # 10:00 Asia/Calcutta = 04:30 UTC on September 16.
+    - cron: "30 4 16 9 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release-v1
+  cancel-in-progress: false
+
+jobs:
+  android-release:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 4 16 9 *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Prepare mobile web bundle
+        run: |
+          mkdir -p mobile-web
+          cp index.html styles.css app.js mobile-web/
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate Android project
+        run: npx cap add android
+
+      - name: Sync web app into Android shell
+        run: npx cap sync android
+
+      - name: Set Android 7+ compatibility
+        shell: bash
+        run: |
+          sed -i 's/minSdkVersion = 23/minSdkVersion = 24/' android/variables.gradle || true
+          sed -i 's/versionName "1.0"/versionName "1.0.0"/' android/app/build.gradle || true
+          sed -i 's/versionCode 1/versionCode 1/' android/app/build.gradle || true
+
+      - name: Build installable APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK
+        shell: bash
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk "${APP_NAME}-Android-v1.0.0.apk"
+        env:
+          APP_NAME: Pulseboard
+
+      - name: Publish Android release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: Pulseboard Android v1.0.0
+          body_path: CHANGELOG.md
+          generate_release_notes: true
+          files: '*-Android-v1.0.0.apk'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
