@@ -2,8 +2,8 @@ name: Build and schedule Android release
 
 on:
   schedule:
-    # 10:00 Asia/Calcutta = 04:30 UTC on September 16.
-    - cron: "30 4 16 9 *"
+    # 08:00 Asia/Calcutta = 02:30 UTC on September 16.
+    - cron: "30 2 16 9 *"
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   android-release:
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 4 16 9 *'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 2 16 9 *'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

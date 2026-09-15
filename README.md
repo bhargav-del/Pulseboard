@@ -70,4 +70,4 @@ The repository includes a portable Windows desktop build. Every push to `main` r
 
 ## Android release
 
-An Android 7.0+ build (API 24+) is scheduled for **September 16, 2026 at 10:00 IST**. The same responsive product is packaged with Capacitor as an installable APK and published to the repository's **Releases** section as `v1.0.0`.
+An Android 7.0+ build (API 24+) is scheduled for **September 16, 2026 at 08:00 IST**. The same responsive product is packaged with Capacitor as an installable APK and published to the repository's **Releases** section as `v1.0.0`.

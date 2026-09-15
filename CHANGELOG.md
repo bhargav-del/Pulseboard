@@ -6,5 +6,5 @@
 - Added a GitHub Actions workflow that builds and publishes the `.exe` to Releases.
 - Hardened the desktop shell with context isolation, sandboxing, and disabled Node integration.
 - Kept the original browser experience available through GitHub Pages.
-- Added an Android 7+ (API 24+) Capacitor build scheduled for 10:00 IST on September 16, 2026.
+- Added an Android 7+ (API 24+) Capacitor build scheduled for 08:00 IST on September 16, 2026.
 
