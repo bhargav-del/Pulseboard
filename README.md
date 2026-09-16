@@ -6,7 +6,7 @@
 [![Latest release](https://img.shields.io/github/v/release/bhargav-del/pulseboard?display_name=tag&sort=semver)](https://github.com/bhargav-del/pulseboard/releases)
 [![License](https://img.shields.io/github/license/bhargav-del/pulseboard)](https://github.com/bhargav-del/pulseboard/blob/main/LICENSE)
 
-A calm command center for service health. Built as a local-first, dependency-light product experience with a browser build, a portable Windows desktop build, and a scheduled Android APK release.
+A calm command center for service health. Built as a local-first, dependency-light product experience with a self-contained Windows desktop app, a portable Windows build, and a scheduled Android APK release.
 
 ## What it demonstrates
 
@@ -47,9 +47,12 @@ node --check app.js
 
 ## Releases
 
-- [Browser source and releases](https://github.com/bhargav-del/pulseboard/releases)
-- The Windows portable `.exe` is built by GitHub Actions.
-- The Android 7+ (API 24+) `v1.0.0` APK is scheduled for **September 16, 2026 at 08:00 IST**.
+The Windows release is fully self-contained: download either the portable `.exe` or the guided `Setup.exe` installer. The app bundles its HTML, CSS, JavaScript, and runtime inside the executable package, so users do not need separate web files.
+
+- [Windows downloads](https://github.com/bhargav-del/pulseboard/releases/tag/v1.0.5)
+- Portable: `Pulseboard-Portable-1.0.5.exe`
+- Installer: `Pulseboard-Setup-1.0.5.exe`
+- Android 7+ (API 24+) `v1.0.0` APK remains scheduled for **September 16, 2026 at 08:00 IST**.
 
 ## Privacy and security
 

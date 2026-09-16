@@ -1,7 +1,7 @@
 {
   "name": "pulseboard",
-  "version": "1.0.0",
-  "description": "Uptime monitoring dashboard for service health, incidents, and response times.",
+  "version": "1.0.5",
+  "description": "Self-contained Windows desktop app for uptime, incidents, and service health.",
   "private": true,
   "main": "desktop/main.cjs",
   "scripts": {
@@ -29,8 +29,31 @@
       "package.json"
     ],
     "win": {
-      "target": "portable",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "asar": true,
+    "portable": {
       "artifactName": "Pulseboard-Portable-${version}.exe"
+    },
+    "nsis": {
+      "artifactName": "Pulseboard-Setup-${version}.exe",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }
