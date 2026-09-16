@@ -37,6 +37,7 @@ jobs:
           name: ${{ env.APP_NAME }} v1.0.5
           body_path: CHANGELOG.md
           generate_release_notes: true
+          overwrite_files: true
           files: release/*.exe
         env:
           APP_NAME: Pulseboard
