@@ -3,6 +3,13 @@ name: Build and publish Windows desktop release
 on:
   push:
     branches: [main]
+    paths:
+      - index.html
+      - styles.css
+      - app.js
+      - package.json
+      - desktop/**
+      - .github/workflows/windows-release.yml
   workflow_dispatch:
 
 permissions:

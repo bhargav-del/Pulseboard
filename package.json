@@ -30,20 +30,12 @@
     ],
     "win": {
       "target": [
-        "nsis",
         "portable"
       ]
     },
     "asar": true,
     "portable": {
       "artifactName": "Pulseboard-Portable-${version}.exe"
-    },
-    "nsis": {
-      "artifactName": "Pulseboard-Setup-${version}.exe",
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
     }
   }
 }

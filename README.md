@@ -47,11 +47,10 @@ node --check app.js
 
 ## Releases
 
-The Windows release is fully self-contained: download either the portable `.exe` or the guided `Setup.exe` installer. The app bundles its HTML, CSS, JavaScript, and runtime inside the executable package, so users do not need separate web files.
+The Windows release is fully self-contained: download the portable `.exe` and run it directly. The app bundles its HTML, CSS, JavaScript, and runtime inside the executable package, so users do not need separate web files.
 
 - [Windows downloads](https://github.com/bhargav-del/pulseboard/releases/tag/v1.0.5)
 - Portable: `Pulseboard-Portable-1.0.5.exe`
-- Installer: `Pulseboard-Setup-1.0.5.exe`
 - Android 7+ (API 24+) `v1.0.0` APK remains scheduled for **September 16, 2026 at 08:00 IST**.
 
 ## Privacy and security

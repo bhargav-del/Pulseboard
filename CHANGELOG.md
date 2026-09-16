@@ -3,9 +3,9 @@
 ## v1.0.5 — 2026-09-15
 
 - Published a fully self-contained Windows desktop app.
-- Added both a portable `.exe` and a guided `Setup.exe` installer.
+- Added a portable `.exe` with the full runtime and product UI bundled inside.
 - Bundled the browser UI inside the Electron application archive so users do not need separate HTML, CSS, or JavaScript files.
-- Enabled desktop shortcuts and optional installation-directory selection.
+- Kept the Windows release install-free: download and run the portable app.
 
 ## v1.0.0 — 2026-09-15
 
