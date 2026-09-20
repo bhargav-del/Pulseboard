@@ -5,6 +5,9 @@
   <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pulseboard — a calm command center for service health." />
   <meta name="theme-color" content="#f8f8f6" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.webmanifest" />
   <title>Pulseboard — Service health, at a glance</title>
   <link rel="stylesheet" href="styles.css" />
   <script defer src="app.js"></script>
@@ -122,6 +125,17 @@
       </div>
     </main>
   </div>
+
+  <dialog class="modal detail-modal" id="monitor-detail-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="detail-close" aria-label="Close monitor detail">×</button>
+      <span class="section-kicker">Monitor detail</span><h2 id="detail-name">Core API</h2><p class="modal-lede" id="detail-url">api.yuin.dev/health</p>
+      <div class="detail-summary"><span class="status-pill" id="detail-status"><i></i>Operational</span><span class="detail-checked">Checked just now</span></div>
+      <div class="detail-grid"><div class="detail-card"><span>30-day uptime</span><strong id="detail-uptime">99.99%</strong></div><div class="detail-card"><span>Avg. response</span><strong id="detail-response">142 ms</strong></div><div class="detail-card"><span>Checks</span><strong>4,320</strong></div></div>
+      <div class="detail-chart-wrap"><div class="detail-chart-head"><span>Response history</span><span class="detail-legend"><i></i> Healthy <i class="down"></i> Incident</span></div><div class="detail-chart" id="detail-chart"></div></div>
+      <div class="modal-actions"><button class="button secondary" id="detail-export">Export monitor</button><button class="button primary" id="detail-check">Check now <span>↻</span></button></div>
+    </div>
+  </dialog>
 
   <dialog class="modal" id="monitor-modal">
     <form method="dialog" id="monitor-form" class="modal-card">

@@ -1,0 +1,9 @@
+{
+  "name": "Pulseboard",
+  "short_name": "Pulseboard",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8f8f6",
+  "theme_color": "#2e8b68",
+  "description": "A calm command center for service health."
+}

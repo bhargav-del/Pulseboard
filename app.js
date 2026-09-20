@@ -25,7 +25,7 @@ function makeChart(history, degraded = false) {
 }
 
 function monitorMarkup(monitor, full = false) {
-  return `<div class="monitor-row" data-monitor-id="${monitor.id}">
+  return `<div class="monitor-row" role="button" tabindex="0" aria-label="Open details for ${escapeHtml(monitor.name)}" data-monitor-id="${monitor.id}">
     <div class="monitor-main"><span class="monitor-orb ${monitor.status === 'degraded' ? 'degraded' : ''}">${monitor.icon}</span><div class="monitor-info"><strong>${escapeHtml(monitor.name)}</strong><span>${escapeHtml(monitor.url)}</span></div></div>
     ${makeChart(monitor.history, monitor.status === 'degraded')}
     <div class="monitor-stat"><strong>${monitor.response} ms</strong><span>response time</span></div>
@@ -49,6 +49,7 @@ function render() {
   const fullList = $('#full-monitor-list');
   if (list) list.innerHTML = monitors.slice(0, 4).map(m => monitorMarkup(m)).join('');
   if (fullList) fullList.innerHTML = monitors.filter(m => currentFilter === 'all' || m.status === currentFilter).map(m => monitorMarkup(m, true)).join('') || '<div class="empty-state">No monitors match this filter.</div>';
+  bindMonitorRows();
   const incidentList = $('#incident-list');
   if (incidentList) incidentList.innerHTML = incidents.slice(0, 3).map(incidentMarkup).join('');
   const timeline = $('#timeline');
@@ -72,10 +73,13 @@ function render() {
 }
 
 function escapeHtml(text) { return String(text).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c])); }
+function openMonitorDetail(id) { const monitor = monitors.find(item => item.id === id); if (!monitor) return; $('#detail-name').textContent = monitor.name; $('#detail-url').textContent = monitor.url; $('#detail-uptime').textContent = monitor.uptime; $('#detail-response').textContent = `${monitor.response} ms`; const pill = $('#detail-status'); pill.className = `status-pill ${monitor.status === 'degraded' ? 'degraded' : ''}`; pill.innerHTML = `<i></i>${monitor.status === 'degraded' ? 'Degraded' : 'Operational'}`; $('#detail-chart').innerHTML = monitor.history.map(value => `<i class="${value ? '' : 'down'}" style="height:${value ? 18 + Math.floor(Math.random() * 22) : 8}px"></i>`).join(''); $('#monitor-detail-modal').showModal(); $('#detail-check').onclick = () => { checkOne(id); $('#monitor-detail-modal').close(); }; $('#detail-export').onclick = () => { const blob = new Blob([JSON.stringify(monitor, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${monitor.id}-report.json`; a.click(); URL.revokeObjectURL(a.href); showToast('Monitor report exported.'); }; }
+function bindMonitorRows() { $$('.monitor-row').forEach(row => { row.addEventListener('click', event => { if (!event.target.closest('button')) openMonitorDetail(row.dataset.monitorId); }); row.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openMonitorDetail(row.dataset.monitorId); } }); }); }
 function showToast(message) { $('#toast-message').textContent = message; $('#toast').classList.add('visible'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 3000); }
 function setView(view) { $$('.nav-item').forEach(item => item.classList.toggle('active', item.dataset.view === view)); $$('.view-panel').forEach(panel => panel.classList.toggle('active', panel.dataset.panel === view)); $('#breadcrumb-title').textContent = view[0].toUpperCase() + view.slice(1); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function openModal() { $('#monitor-modal').showModal(); setTimeout(() => $('#monitor-form input').focus(), 50); }
 function exportReport() { const report = { generatedAt: new Date().toISOString(), workspace: "Yuin's workspace", monitors, incidents }; const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pulseboard-report.json'; a.click(); URL.revokeObjectURL(a.href); showToast('Report exported as JSON.'); }
+function checkOne(id) { monitors = monitors.map(m => m.id === id ? { ...m, response: Math.max(45, m.response + Math.floor(Math.random() * 21) - 10), status: Math.random() > .92 ? 'degraded' : 'operational', history: [...m.history.slice(-29), Math.random() > .08 ? 1 : 0] } : m); persist(); render(); showToast('Monitor checked just now.'); }
 function checkAll() { monitors = monitors.map(m => { const shift = Math.floor(Math.random() * 21) - 10; const response = Math.max(45, m.response + shift); const status = Math.random() > .92 ? 'degraded' : 'operational'; return { ...m, response, status, history: [...m.history.slice(-29), status === 'operational' ? 1 : 0] }; }); persist(); render(); $('#status-updated').textContent = 'Last checked just now · next check in 45 seconds'; showToast('All monitors checked.'); }
 function addMonitor(form) { const data = new FormData(form); const id = `${String(data.get('name')).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${Date.now()}`; monitors.unshift({ id, name: data.get('name'), url: String(data.get('url')).replace(/^https?:\/\//, ''), status: 'operational', response: 74, uptime: '100.00%', icon: '◌', history: Array(30).fill(1) }); persist(); render(); setView('monitors'); showToast(`${data.get('name')} added to your workspace.`); form.reset(); }
 function updateTheme() { const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = theme; localStorage.setItem('pulseboard-theme', theme); $('#theme-toggle').textContent = theme === 'dark' ? '☾' : '☼'; }
@@ -91,7 +95,7 @@ function init() {
   $$('.nav-item').forEach(item => item.addEventListener('click', () => setView(item.dataset.view)));
   $$('[data-view-target]').forEach(item => item.addEventListener('click', () => setView(item.dataset.viewTarget)));
   $('#view-all-monitors').addEventListener('click', () => setView('monitors'));
-  $('#add-monitor-button').addEventListener('click', openModal); $('#add-monitor-button-monitors').addEventListener('click', openModal);
+  $('#add-monitor-button').addEventListener('click', openModal); $('#add-monitor-button-monitors').addEventListener('click', openModal); $('#detail-close').addEventListener('click', () => $('#monitor-detail-modal').close());
   $('#monitor-form').addEventListener('submit', e => { e.preventDefault(); addMonitor(e.currentTarget); $('#monitor-modal').close(); });
   $('#check-all').addEventListener('click', checkAll); $('#theme-toggle').addEventListener('click', updateTheme); $('#settings-theme').addEventListener('click', updateTheme);
   $('#export-button').addEventListener('click', exportReport); $('#export-button-monitors').addEventListener('click', exportReport);
@@ -99,6 +103,7 @@ function init() {
   $$('.filter-tab').forEach(tab => tab.addEventListener('click', () => { $$('.filter-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentFilter = tab.dataset.filter; render(); }));
   $('#report-incident').addEventListener('click', () => showToast('Incident reporting is ready for your next real check.'));
   $('#search-trigger').addEventListener('click', openPalette); $('#command-palette').addEventListener('click', e => { if (e.target === $('#command-palette')) closePalette(); }); $('#palette-input').addEventListener('input', e => updatePaletteResults(e.target.value));
-  document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); } if (e.key === 'Escape') closePalette(); if (e.key.toLowerCase() === 'n' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) openModal(); });
+  document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); } if (e.key === 'Escape') { closePalette(); if ($('#monitor-detail-modal').open) $('#monitor-detail-modal').close(); } if (e.key.toLowerCase() === 'n' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) openModal(); });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 init();

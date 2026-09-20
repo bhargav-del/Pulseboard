@@ -3,13 +3,6 @@ name: Build and publish Windows desktop release
 on:
   push:
     branches: [main]
-    paths:
-      - index.html
-      - styles.css
-      - app.js
-      - package.json
-      - desktop/**
-      - .github/workflows/windows-release.yml
   workflow_dispatch:
 
 permissions:
@@ -34,17 +27,16 @@ jobs:
       - name: Install desktop build dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Build self-contained Windows apps
+      - name: Build portable Windows app
         run: npm run dist
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.5
-          name: ${{ env.APP_NAME }} v1.0.5
+          tag_name: v2.0.0
+          name: ${{ env.APP_NAME }} v2.0.0
           body_path: CHANGELOG.md
           generate_release_notes: true
-          overwrite_files: true
           files: release/*.exe
         env:
           APP_NAME: Pulseboard

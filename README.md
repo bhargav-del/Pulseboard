@@ -6,7 +6,13 @@
 [![Latest release](https://img.shields.io/github/v/release/bhargav-del/pulseboard?display_name=tag&sort=semver)](https://github.com/bhargav-del/pulseboard/releases)
 [![License](https://img.shields.io/github/license/bhargav-del/pulseboard)](https://github.com/bhargav-del/pulseboard/blob/main/LICENSE)
 
-A calm command center for service health. Built as a local-first, dependency-light product experience with a self-contained Windows desktop app, a portable Windows build, and a scheduled Android APK release.
+Self-contained Windows desktop uptime monitor with incident detail, exports, and offline support. Built as a local-first, dependency-light product experience with a browser build, a portable Windows desktop build, and a scheduled Android APK release.
+
+## What's new in v2.0.0
+
+- Monitor detail views with per-monitor checks and JSON exports
+- Offline-capable PWA shell with local-first state
+- Keyboard-friendly interactions and persisted theme/state
 
 ## What it demonstrates
 
@@ -47,11 +53,9 @@ node --check app.js
 
 ## Releases
 
-The Windows release is fully self-contained: download the portable `.exe` and run it directly. The app bundles its HTML, CSS, JavaScript, and runtime inside the executable package, so users do not need separate web files.
-
-- [Windows downloads](https://github.com/bhargav-del/pulseboard/releases/tag/v1.0.5)
-- Portable: `Pulseboard-Portable-1.0.5.exe`
-- Android 7+ (API 24+) `v1.0.0` APK remains scheduled for **September 16, 2026 at 08:00 IST**.
+- [Browser source and releases](https://github.com/bhargav-del/pulseboard/releases)
+- The Windows portable `.exe` is built by GitHub Actions: [`Pulseboard-Portable-2.0.0.exe`](https://github.com/bhargav-del/pulseboard-app/releases/download/v2.0.0/Pulseboard-Portable-2.0.0.exe).
+- The Android 7+ (API 24+) `v1.0.0` APK is scheduled for **September 16, 2026 at 08:00 IST**.
 
 ## Privacy and security
 

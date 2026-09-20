@@ -1,11 +1,11 @@
 {
   "name": "pulseboard",
-  "version": "1.0.5",
-  "description": "Self-contained Windows desktop app for uptime, incidents, and service health.",
+  "version": "2.0.0",
+  "description": "Self-contained Windows desktop uptime monitor with incident detail, exports, and offline support.",
   "private": true,
   "main": "desktop/main.cjs",
   "scripts": {
-    "dist": "electron-builder --win",
+    "dist": "electron-builder --win portable",
     "check": "node --check app.js"
   },
   "devDependencies": {
@@ -26,15 +26,12 @@
       "styles.css",
       "app.js",
       "desktop/**/*",
-      "package.json"
+      "package.json",
+      "manifest.webmanifest",
+      "sw.js"
     ],
     "win": {
-      "target": [
-        "portable"
-      ]
-    },
-    "asar": true,
-    "portable": {
+      "target": "portable",
       "artifactName": "Pulseboard-Portable-${version}.exe"
     }
   }
